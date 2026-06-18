@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Mraha wa Tso</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="menuScreen" class="screen menu-screen">
+      <div class="menu-card">
+        <p class="kicker">Grande Comore</p>
+        <h1>Mraha wa Tso</h1>
+        <button id="startButton" class="start-button">Jouer</button>
+      </div>
+    </main>
+
+    <main id="gameScreen" class="screen game-screen hidden" aria-label="Partie de Mraha wa Tso">
+      <button id="backButton" class="icon-button" aria-label="Retour au menu">‹</button>
+      <section class="play-field" aria-label="Plateau">
+        <div id="reserveTop" class="reserve reserve-top" aria-label="Réserve du joueur du haut"></div>
+        <div id="boardGrid" class="board-grid" aria-label="Plateau jouable"></div>
+        <div id="reserveBottom" class="reserve reserve-bottom" aria-label="Réserve du joueur du bas"></div>
+        <div id="directionChoice" class="direction-choice hidden" aria-label="Choix de direction">
+          <button data-direction="left" aria-label="Semer vers la gauche">←</button>
+          <button data-direction="right" aria-label="Semer vers la droite">→</button>
+        </div>
+      </section>
+    </main>
+
+    <div id="portraitLock" class="portrait-lock" role="alert">
+      <span>Tournez l’écran</span>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
