@@ -31,6 +31,7 @@ button { font: inherit; border: 0; cursor: pointer; }
   background: linear-gradient(145deg, rgba(126, 73, 35, .92), rgba(47, 25, 13, .96));
   box-shadow: 0 32px 90px rgba(0, 0, 0, .48), inset 0 1px 0 rgba(255, 255, 255, .16);
 }
+.kicker { margin: 0; color: var(--sand-light); font-size: clamp(.8rem, 1.5vw, 1rem); letter-spacing: .22em; text-transform: uppercase; font-weight: 900; }
 h1 { margin: 0; font-size: clamp(2.8rem, 8vw, 6.5rem); line-height: .84; text-align: center; }
 .start-button {
   min-width: 180px;
@@ -156,4 +157,78 @@ h1 { margin: 0; font-size: clamp(2.8rem, 8vw, 6.5rem); line-height: .84; text-al
   .play-field { grid-template-rows: 44px 1fr 44px; min-height: 300px; }
   .reserve .seed { width: 11px; }
   .icon-button { width: 36px; height: 36px; font-size: 1.6rem; }
+}
+.turn-status {
+  position: absolute;
+  top: -2.45rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  border-radius: 999px;
+  padding: .45rem 1rem;
+  background: rgba(17, 9, 5, .68);
+  color: var(--sand-light);
+  font-weight: 900;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.06);
+}
+.cell-number {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  color: rgba(255, 232, 183, .58);
+  font-size: .72rem;
+  font-weight: 900;
+  pointer-events: none;
+}
+.seed-cloud strong {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff8e8;
+  text-shadow: 0 2px 6px #000;
+  font-size: 1.1rem;
+}
+.cell.drop { animation: seedDrop .24s ease-out; }
+.cell.capture { animation: captureFlash .34s ease-out; }
+.turn-pulse .play-field { animation: turnPulse .38s ease-out; }
+.udza-controls {
+  position: absolute;
+  left: 50%;
+  bottom: 4.9rem;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  gap: .75rem;
+  padding: .55rem;
+  border-radius: 999px;
+  background: rgba(17, 9, 5, .76);
+  box-shadow: 0 20px 48px rgba(0,0,0,.38);
+}
+.udza-controls button {
+  border-radius: 999px;
+  padding: .7rem 1.25rem;
+  background: var(--sand-light);
+  color: #2b160c;
+  font-weight: 950;
+}
+@keyframes seedDrop {
+  0% { transform: scale(.88); filter: brightness(1.8); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+@keyframes captureFlash {
+  0% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 95, 95, .9), inset 0 10px 22px rgba(0,0,0,.8); }
+  100% { opacity: .45; box-shadow: 0 0 34px 16px rgba(255, 95, 95, 0), inset 0 10px 22px rgba(0,0,0,.8); }
+}
+@keyframes turnPulse {
+  0% { filter: saturate(1); }
+  45% { filter: saturate(1.55) brightness(1.18); }
+  100% { filter: saturate(1); }
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .turn-status { top: -2rem; font-size: .78rem; }
+  .udza-controls { bottom: 3.7rem; }
 }
