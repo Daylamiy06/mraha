@@ -17,12 +17,17 @@
     <main id="gameScreen" class="screen game-screen hidden" aria-label="Partie de Mraha wa Tso">
       <button id="backButton" class="icon-button" aria-label="Retour au menu">‹</button>
       <section class="play-field" aria-label="Plateau">
+        <div id="status" class="turn-status" aria-live="polite"></div>
         <div id="reserveTop" class="reserve reserve-top" aria-label="Réserve du joueur du haut"></div>
         <div id="boardGrid" class="board-grid" aria-label="Plateau jouable"></div>
         <div id="reserveBottom" class="reserve reserve-bottom" aria-label="Réserve du joueur du bas"></div>
         <div id="directionChoice" class="direction-choice hidden" aria-label="Choix de direction">
           <button data-direction="left" aria-label="Semer vers la gauche">←</button>
           <button data-direction="right" aria-label="Semer vers la droite">→</button>
+        </div>
+        <div id="udzaControls" class="udza-controls hidden" aria-label="Validation du MKAZO">
+          <button id="validateMkazo">Valider</button>
+          <button id="undoMkazo">Undo</button>
         </div>
       </section>
     </main>
