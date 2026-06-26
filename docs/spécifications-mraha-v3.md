@@ -578,8 +578,20 @@ le joueur peut le choisir comme n'importe quel autre Ndrazi.
 
 Cette règle n'existe que si :
 
+en phase TSO :
+
+aucune capture n'est possible ;
+
+ou
+
+en phase NDRAZI :
+
 aucun Ndrazi n'est possible ;
+
+et
+
 aucune autre case intérieure ne contient de graines.
+
 Phase TSO
 
 Le joueur :
@@ -1238,10 +1250,14 @@ Chaque coup légal doit être entièrement décrit par une structure unique.
 
     startPit,
 
-    targetPit,
-
     direction
 }
+
+startPit désigne la case de départ du Ndrazi.
+
+La case où débute la première capture est entièrement déterminée par les règles du jeu et par le sens choisi.
+
+Elle ne fait donc pas partie des informations décrivant un coup.
 
 12.5.4 Mkazo NDRAZI
 
@@ -1259,6 +1275,20 @@ Le moteur utilise uniquement :
 
 LEFT
 RIGHT
+
+Correspondances :
+
+RIGHT
+
+correspond au sens :
+
+1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → ...
+
+LEFT
+
+correspond au sens :
+
+8 → 7 → 6 → 5 → 4 → 3 → 2 → 1 → 16 → ...
 
 Les valeurs :
 
@@ -1718,7 +1748,31 @@ Victoire
     player
 }
 
-12.19 Udza
+12.19 Validation d'un Mkazo
+
+confirmMkazo()
+
+engine.confirmMkazo()
+
+Effets :
+
+valide définitivement le dernier Mkazo ;
+supprime le snapshot associé ;
+termine le tour ;
+passe le tour au joueur suivant ;
+réinitialise le compteur Udza du nouveau joueur.
+
+Retour :
+
+true
+
+si la validation réussit.
+
+Sinon :
+
+false
+
+12.20 Udza
 
 canUndoMkazo()
 engine.canUndoMkazo()
@@ -1750,7 +1804,16 @@ Sinon :
 
 false
 
-12.20 Historique
+Lorsque le coup exécuté est un Mkazo, le moteur suspend temporairement la fin du tour.
+
+Le résultat retourné par play() permet à l'interface d'afficher les animations puis de laisser le joueur choisir entre :
+
+valider le Mkazo ;
+utiliser un Udza.
+
+Le tour n'est définitivement terminé qu'après cette décision.
+
+12.21 Historique
 
 getHistory()
 engine.getHistory()
@@ -1765,7 +1828,7 @@ Vide l'historique.
 
 Principalement utile pour les tests.
 
-12.21 — Dernier résultat
+12.22 — Dernier résultat
 
 getLastMoveResult()
 engine.getLastMoveResult()
@@ -1786,7 +1849,7 @@ null
 
 Le résultat retourné possède exactement la même structure que celle décrite à l'article 12.18.1.
 
-12.22 Détection et vérifications
+12.23 Détection et vérifications
 
 checkVictory()
 engine.checkVictory()
@@ -1805,7 +1868,7 @@ Retour :
 true
 false
 
-12.23 Informations Nyumba
+12.24 Informations Nyumba
 
 isNyumbaActive(player)
 engine.isNyumbaActive(player)
@@ -1815,7 +1878,7 @@ Retour :
 true
 false
 
-12.24 Informations Udza
+12.25 Informations Udza
 
 getRemainingUdza(player)
 engine.getRemainingUdza(player)
@@ -1826,7 +1889,7 @@ Retour :
 1
 2
 
-12.25 Réinitialisation
+12.26 Réinitialisation
 
 reset()
 engine.reset()
@@ -1839,7 +1902,7 @@ remise à zéro ;
 nouveau tirage au sort ;
 historique vide.
 
-12.26 Principe d'encapsulation
+12.27 Principe d'encapsulation
 
 Les méthodes suivantes sont publiques :
 
