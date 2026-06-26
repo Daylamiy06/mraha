@@ -600,13 +600,13 @@ retire une graine du Nyumba ;
 retire une graine de sa réserve ;
 sème les deux graines.
 
-Vers la gauche :
+Si le sens choisi est LEFT :
 
-4 puis 3
+les graines sont déposées dans les cases 4 puis 3.
 
-Vers la droite :
+Si le sens choisi est RIGHT :
 
-6 puis 7
+les graines sont déposées dans les cases 6 puis 7.
 
 Le statut Nyumba est conservé.
 
@@ -638,9 +638,10 @@ le statut Nyumba est conservé.
 
 Continuer le semis
 
-le joueur reprend les graines du Nyumba ;
-poursuit le semis normalement ;
-perd définitivement le statut Nyumba.
+le joueur reprend toutes les graines présentes dans le Nyumba ;
+le semis reprend immédiatement dans le même sens que celui utilisé avant l'arrivée dans le Nyumba ;
+le joueur ne peut jamais changer de sens ;
+le statut Nyumba est perdu définitivement.
 
 7.9 Capture prioritaire
 
@@ -818,6 +819,12 @@ l'absence totale de coup légal au tour suivant.
 Un Mkazo qui conduit inévitablement à une position où le joueur sera en défaite dès son prochain tour est également interdit.
 
 Cette situation est considérée comme une défaite d'avance et relève de la règle générale d'auto-élimination.
+
+Pour cette vérification, l'expression « au tour suivant » désigne uniquement la position obtenue immédiatement après l'exécution complète du Mkazo.
+
+Aucune simulation du tour adverse ni aucune anticipation des coups futurs n'est effectuée.
+
+Le moteur vérifie uniquement si, dans cette position résultante, le joueur disposerait encore d'au moins un coup légal lors de son prochain tour.
 
 Exemple
 
