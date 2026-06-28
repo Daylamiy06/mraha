@@ -114,12 +114,13 @@ export class MrahaEngine {
   }
 
   play(move) {
-    if (this.#pendingMkazo) return this.#failedResult(move, "MKAZO_PENDING_DECISION");
+	if (this.#pendingMkazo) return this.#failedResult(move, "MKAZO_PENDING_DECISION");
     if (this.#state.gameOver) return this.#failedResult(move, "GAME_OVER");
     const legal = this.getLegalMoves().find((candidate) => this.#sameMove(candidate, move));
     if (!legal) return this.#failedResult(move, "ILLEGAL_MOVE");
 
     const beforeState = this.#snapshot();
+    const beforeInternalState = this.#internalSnapshot();
     const events = [];
     const normalized = deepClone(legal);
     const isMkazo = normalized.type === MOVE_TYPES.TSO_MKAZO || normalized.type === MOVE_TYPES.NDRAZI_MKAZO;
@@ -128,9 +129,9 @@ export class MrahaEngine {
     if (normalized.type === MOVE_TYPES.TSO_MKAZO) this.#executeTsoMkazo(this.#state, normalized, events);
     if (normalized.type === MOVE_TYPES.NDRAZI) this.#executeNdrazi(this.#state, normalized, events);
     if (normalized.type === MOVE_TYPES.NDRAZI_MKAZO) this.#executeNdraziMkazo(this.#state, normalized, events);
-
+    
     if (isMkazo && this.#state.players[this.#state.currentPlayer].udzaRemaining > 0) {
-      this.#pendingMkazo = { beforeState, move: normalized, afterState: this.#snapshot() };
+      this.#pendingMkazo = { beforeState: beforeInternalState, move: normalized, afterState: this.#internalSnapshot() };
       events.push({ type: EVENTS.MKAZO_PENDING, player: this.#state.currentPlayer, udzaRemaining: this.#state.players[this.#state.currentPlayer].udzaRemaining });
     } else {
       this.#finishTurn(events);
@@ -162,7 +163,7 @@ export class MrahaEngine {
     if (!this.canUndoMkazo()) return false;
     const player = this.#state.currentPlayer;
     const remaining = this.#state.players[player].udzaRemaining - 1;
-    this.#restoreSnapshot(this.#pendingMkazo.beforeState);
+    this.#restoreInternalSnapshot(this.#pendingMkazo.beforeState);
     this.#state.players[player].udzaRemaining = remaining;
     const event = { type: EVENTS.UDZA, player, udzaRemaining: remaining };
     this.#pendingMkazo = null;
@@ -226,6 +227,20 @@ export class MrahaEngine {
 
   #snapshot() { return deepClone(this.#state); }
   #restoreSnapshot(snapshot) { this.#state = deepClone(snapshot); }
+  #internalSnapshot() {
+    return deepClone({
+      state: this.#state,
+      lastMoveResult: this.#lastMoveResult,
+      pendingMkazo: this.#pendingMkazo,
+      previousWinner: this.#previousWinner,
+    });
+  }
+  #restoreInternalSnapshot(snapshot) {
+    this.#state = deepClone(snapshot.state);
+    this.#lastMoveResult = deepClone(snapshot.lastMoveResult);
+    this.#pendingMkazo = deepClone(snapshot.pendingMkazo);
+    this.#previousWinner = snapshot.previousWinner ?? null;
+  }
   #player(player) { return this.#state.players[player]; }
   #opponent(player) { return player === 0 ? 1 : 0; }
   #isInner(pit) { return Number.isInteger(pit) && pit >= 1 && pit <= 8; }
